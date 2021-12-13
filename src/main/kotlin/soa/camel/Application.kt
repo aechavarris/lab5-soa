@@ -42,18 +42,17 @@ class Router(meterRegistry: MeterRegistry) : RouteBuilder() {
     private val perKeywordMessages = TaggedCounter("per-keyword-messages", "keyword", meterRegistry)
 
     private fun countMax(request: String): String {
-        val tokens = request.split(" ")
         var count = ""
         var keywords = ""
-        for (token in tokens){
+        for (token in request.split(" ")){
             if (token.length > 4 && token.substring(0, 4) == "max:"){
                 count = "?count=" + token.substring(4)
             } else {
                 keywords += token + " "
             }
         }
-        // Count must be appended at the end or error will be thrown
-        return keywords + count
+        var res = keywords + count
+        return res
     }
 
     override fun configure() {
